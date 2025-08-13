@@ -119,7 +119,7 @@ export default function AdminRegister() {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post("http://localhost:8000/auth/register", {
+      const res = await axios.post("https://hospital-backend-1-ygmp.onrender.com/auth/register", {
         ...form,
         role: "admin",  // explicitly send role admin
       });
