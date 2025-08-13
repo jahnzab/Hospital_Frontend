@@ -56,13 +56,13 @@ export default function App() {
   
 
 
-  const token = localStorage.getItem("doctorToken");
+  const doctortoken = localStorage.getItem("doctorToken");
    
   useEffect(() => {
     async function fetchDoctorProfile() {
       try {
         const res = await axios.get(`${BASE_URL}/doctor/profile`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${doctortoken}` },
         });
         setDoctorProfile(res.data);
         setAvailability((prev) => ({
@@ -81,7 +81,7 @@ export default function App() {
     async function fetchPatientsToday() {
       try {
         const res = await axios.get(`${BASE_URL}/doctor/patients_today`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${doctortoken}` },
         });
         setPatientsToday(res.data);
       } catch (err) {
@@ -111,7 +111,7 @@ export default function App() {
       };
 
       await axios.post(`${BASE_URL}/doctor/availability/create`, payload, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${doctortoken}` },
       });
       alert("Availability created successfully!");
       setShowAvailabilitySuccess(true);
@@ -133,7 +133,7 @@ export default function App() {
       await axios.post(
         `${BASE_URL}/doctor/mark_completed/${patient_id}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${doctortoken}` } }
       );
       setPatientsToday((prev) =>
         prev.map((p) =>
