@@ -54,7 +54,6 @@ export default function App() {
     </div>
   );
   
-const [token, setToken] = useState(localStorage.getItem("doctor_token") || "");
 
 
   const token = localStorage.getItem("doctorToken");
