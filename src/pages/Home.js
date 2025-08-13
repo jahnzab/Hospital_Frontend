@@ -19,10 +19,10 @@ import React from "react";
 import "../App.css";
 
 
-import himage from   "../assets/heart.webp"
-import bimage from "../assets/brain.webp";
-import gimage from  "../assets/gastro.webp"
-import oimage from  "../assets/ortho.webp"
+import himage from   "../assets/heart.jpeg"
+import bimage from "../assets/brain.jpeg";
+import gimage from  "../assets/gastro.jpeg"
+import oimage from  "../assets/ortho.jpeg"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Home() {
