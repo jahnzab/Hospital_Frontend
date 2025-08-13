@@ -98,7 +98,7 @@ export default function Home() {
         <div
           className="excellence-card card text-center"
           style={{
-            backgroundImage: url(${spec.image}),
+            backgroundImage: `url(${spec.image})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
