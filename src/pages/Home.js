@@ -46,7 +46,9 @@ export default function Home() {
     maxWidth: "600px",
     margin: "0 auto",
   };
-
+  const handleClick= (id) => {
+  setActive(id);
+  };
   const specialties = [
   {
     id: "cardiac",
