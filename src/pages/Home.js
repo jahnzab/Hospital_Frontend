@@ -26,6 +26,7 @@ import oimage from  "../assets/ortho.jpeg"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Home() {
+  const [active ,setActive] = useState(null);
   const backgroundStyle = {
     backgroundImage: "url('Doctor.jpg')",
     backgroundSize: "cover",
