@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://hospital-backend-1-ygmp.onrender.com";
 
 export default function App() {
   const [patientsToday, setPatientsToday] = useState([]);
