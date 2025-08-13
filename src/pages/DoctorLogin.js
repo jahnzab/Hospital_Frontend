@@ -11,7 +11,7 @@ export default function DoctorLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/auth/login", form);
+      const res = await axios.post("https://hospital-backend-1-ygmp.onrender.com/auth/login", form);
 
       // Save token in localStorage
       localStorage.setItem("doctorToken", res.data.access_token);
