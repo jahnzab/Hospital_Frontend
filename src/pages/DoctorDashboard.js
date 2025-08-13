@@ -90,7 +90,7 @@ export default function App() {
         setLoading(false);
       }
     }
-    if (doctorToken) fetchPatientsToday();
+    if (doctortoken) fetchPatientsToday();
   }, [doctortoken]);
 
   function handleInputChange(e) {
