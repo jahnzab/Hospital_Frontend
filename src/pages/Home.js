@@ -16,6 +16,7 @@
 
 // src/pages/Home.js
 import React from "react";
+import "../App.css";
 
 
 import himage from   "../heart.webp"
