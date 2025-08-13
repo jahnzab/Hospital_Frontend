@@ -53,64 +53,30 @@ export default function App() {
       </div>
     </div>
   );
-  async function handleLogin(e) {
-  e.preventDefault();
-  try {
-    const res = await axios.post(`${BASE_URL}/login`, {
-      username,
-      password
-    });
-
-    const token = res.data.access_token;
-    localStorage.setItem("doctor_token", token);
-    setToken(token);  // <-- triggers re-render
-    navigate("/dashboard");
-  } catch (err) {
-    console.error("Login failed:", err);
-    alert("Invalid username or password");
-  }
-}
+  
 const [token, setToken] = useState(localStorage.getItem("doctor_token") || "");
 
-useEffect(() => {
-  async function fetchDoctorProfile() {
-    try {
-      const res = await axios.get(`${BASE_URL}/doctor/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setDoctorProfile(res.data);
-      setAvailability((prev) => ({
-        ...prev,
-        specialization: res.data.specialization || "",
-        room_number: res.data.room_number || "",
-      }));
-    } catch (err) {
-      console.error("Failed to fetch doctor profile:", err);
-    }
-  }
-  if (token) fetchDoctorProfile();
-}, [token]);
 
-  // const token = localStorage.getItem("doctor_token");
+  const token = localStorage.getItem("doctorToken");
    
-  // useEffect(() => {
-  //   async function fetchDoctorProfile() {
-  //     try {
-  //       const res = await axios.get(`${BASE_URL}/doctor/profile`, {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       });
-  //       setDoctorProfile(res.data);
-  //       setAvailability((prev) => ({
-  //         ...prev,
-  //         specialization: res.data.specialization || "",
-  //         room_number: res.data.room_number || "",
-  //       }));
-  //     } catch (err) {
-  //       console.error("Failed to fetch doctor profile:", err);
-  //     }
-  //   }
-  //   if (token) fetchDoctorProfile();
-  // }, [token]);
+  useEffect(() => {
+    async function fetchDoctorProfile() {
+      try {
+        const res = await axios.get(`${BASE_URL}/doctor/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setDoctorProfile(res.data);
+        setAvailability((prev) => ({
+          ...prev,
+          specialization: res.data.specialization || "",
+          room_number: res.data.room_number || "",
+        }));
+      } catch (err) {
+        console.error("Failed to fetch doctor profile:", err);
+      }
+    }
+    if (token) fetchDoctorProfile();
+  }, [token]);
 
   useEffect(() => {
     async function fetchPatientsToday() {
