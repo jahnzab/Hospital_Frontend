@@ -74,8 +74,8 @@ export default function App() {
         console.error("Failed to fetch doctor profile:", err);
       }
     }
-    if (token) fetchDoctorProfile();
-  }, [token]);
+    if (doctortoken) fetchDoctorProfile();
+  }, [doctortoken]);
 
   useEffect(() => {
     async function fetchPatientsToday() {
@@ -90,8 +90,8 @@ export default function App() {
         setLoading(false);
       }
     }
-    if (token) fetchPatientsToday();
-  }, [token]);
+    if (doctorToken) fetchPatientsToday();
+  }, [doctortoken]);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
