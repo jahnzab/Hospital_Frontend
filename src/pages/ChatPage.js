@@ -85,93 +85,63 @@
 // }
 
 
-
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ChatMessage from "../components/ChatMessage";
-import DoctorListMessage from "../components/DoctorListMessage";
-import FormMessage from "../components/FormMessage";
-
-const backgroundStyle = {
-  backgroundImage: "url('/Doctor.jpg')",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  minHeight: "100vh",
-  padding: "20px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "flex-start",
-  color: "#fff",
-};
-
-const containerStyle = {
-  maxWidth: "600px",
-  width: "100%",
-  backgroundColor: "rgba(255, 255, 255, 0.9)",
-  borderRadius: "8px",
-  padding: "20px",
-  color: "#000",
-};
 
 export default function ChatPage({
   messages,
   pendingDoctors,
-  pendingOptions,
-  optionPrompt,
-  showForm,
+  pendingSlots,
+  pendingGenders,
   handleDoctorSelect,
-  handleOptionSelect,
-  handleFormSubmit,
+  handleSlotSelect,
+  handleGenderSelect,
   input,
   setInput,
-  handleSubmit,
+  handleSubmit
 }) {
+  const chatEndRef = useRef(null);
+
+  // Auto-scroll
+  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, pendingDoctors, pendingSlots, pendingGenders]);
+
   return (
-    <div style={backgroundStyle}>
-      <div style={containerStyle}>
+    <div style={{ minHeight: "100vh", background: "#eee", padding: "20px", display:"flex", justifyContent:"center" }}>
+      <div style={{ maxWidth: "600px", width:"100%", backgroundColor:"#fff", borderRadius:8, padding:20 }}>
         <h2>Hospital Booking Chat</h2>
-        <div
-          style={{
-            height: "500px",
-            overflowY: "auto",
-            border: "1px solid #ccc",
-            padding: "10px",
-            borderRadius: "4px",
-            backgroundColor: "#fff",
-          }}
-        >
-          {/* Chat history */}
-          {messages.map((msg, i) => (
-            <ChatMessage key={i} from={msg.from} text={msg.text} />
+        <div style={{ height:500, overflowY:"auto", border:"1px solid #ccc", padding:10, borderRadius:4 }}>
+          {messages.map((msg,i)=><ChatMessage key={i} from={msg.from} text={msg.text} />)}
+
+          {/* Doctor Buttons */}
+          {pendingDoctors && pendingDoctors.map(d=>(
+            <button key={d.payload} onClick={()=>handleDoctorSelect(d.payload)} style={{ display:"block", margin:"5px 0" }}>
+              {d.label}
+            </button>
           ))}
 
-          {/* Show doctor selection */}
-          {pendingDoctors && (
-            <DoctorListMessage doctors={pendingDoctors} onSelect={handleDoctorSelect} />
-          )}
+          {/* Slot Buttons */}
+          {pendingSlots && pendingSlots.map(s=>(
+            <button key={s.payload} onClick={()=>handleSlotSelect(s.payload)} style={{ display:"block", margin:"5px 0" }}>
+              {s.label}
+            </button>
+          ))}
 
-          {/* Show options (gender/date/slots) */}
-          {pendingOptions && (
-            <FormMessage options={pendingOptions} prompt={optionPrompt} onSelect={handleOptionSelect} />
-          )}
+          {/* Gender Buttons */}
+          {pendingGenders && pendingGenders.map(g=>(
+            <button key={g.payload} onClick={()=>handleGenderSelect(g.payload)} style={{ display:"block", margin:"5px 0" }}>
+              {g.label}
+            </button>
+          ))}
 
-          {/* Show form if needed */}
-          {showForm && <FormMessage onSubmit={handleFormSubmit} />}
+          <div ref={chatEndRef} />
         </div>
 
-        {/* Message input if not selecting doctor or filling form */}
-        {!pendingDoctors && !pendingOptions && !showForm && (
-          <form onSubmit={handleSubmit} style={{ display: "flex", marginTop: "10px" }}>
-            <input
-              style={{ flex: 1, padding: "10px" }}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-            />
-            <button type="submit" style={{ padding: "10px" }}>
-              Send
-            </button>
+        {!pendingDoctors && !pendingSlots && !pendingGenders &&
+          <form onSubmit={handleSubmit} style={{ display:"flex", marginTop:10 }}>
+            <input style={{ flex:1, padding:10 }} value={input} onChange={e=>setInput(e.target.value)} placeholder="Type message..." />
+            <button type="submit" style={{ padding:10 }}>Send</button>
           </form>
-        )}
+        }
       </div>
     </div>
   );
