@@ -88,60 +88,145 @@
 import React, { useEffect, useRef } from "react";
 import ChatMessage from "../components/ChatMessage";
 
+const backgroundStyle = {
+  backgroundImage: "url('/Doctor.jpg')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  minHeight: "100vh",
+  padding: "20px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  color: "#fff",
+};
+
+const containerStyle = {
+  maxWidth: "600px",
+  width: "100%",
+  backgroundColor: "rgba(255,255,255,0.95)",
+  borderRadius: "8px",
+  padding: "20px",
+  color: "#000",
+  display: "flex",
+  flexDirection: "column",
+};
+
 export default function ChatPage({
   messages,
   pendingDoctors,
-  pendingSlots,
   pendingGenders,
+  pendingDates,
+  showForm,
   handleDoctorSelect,
-  handleSlotSelect,
   handleGenderSelect,
+  handleDateSelect,
+  handleFormSubmit,
   input,
   setInput,
-  handleSubmit
+  handleSubmit,
 }) {
   const chatEndRef = useRef(null);
 
   // Auto-scroll
-  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, pendingDoctors, pendingSlots, pendingGenders]);
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, pendingDoctors, pendingGenders, pendingDates]);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#eee", padding: "20px", display:"flex", justifyContent:"center" }}>
-      <div style={{ maxWidth: "600px", width:"100%", backgroundColor:"#fff", borderRadius:8, padding:20 }}>
+    <div style={backgroundStyle}>
+      <div style={containerStyle}>
         <h2>Hospital Booking Chat</h2>
-        <div style={{ height:500, overflowY:"auto", border:"1px solid #ccc", padding:10, borderRadius:4 }}>
-          {messages.map((msg,i)=><ChatMessage key={i} from={msg.from} text={msg.text} />)}
-
-          {/* Doctor Buttons */}
-          {pendingDoctors && pendingDoctors.map(d=>(
-            <button key={d.payload} onClick={()=>handleDoctorSelect(d.payload)} style={{ display:"block", margin:"5px 0" }}>
-              {d.label}
-            </button>
+        <div
+          style={{
+            height: "500px",
+            overflowY: "auto",
+            border: "1px solid #ccc",
+            padding: "10px",
+            borderRadius: "4px",
+            backgroundColor: "#fff",
+            flexGrow: 1,
+          }}
+        >
+          {messages.map((msg, i) => (
+            <ChatMessage key={i} from={msg.from} text={msg.text} />
           ))}
 
-          {/* Slot Buttons */}
-          {pendingSlots && pendingSlots.map(s=>(
-            <button key={s.payload} onClick={()=>handleSlotSelect(s.payload)} style={{ display:"block", margin:"5px 0" }}>
-              {s.label}
-            </button>
-          ))}
+          {pendingDoctors && (
+            <div style={{ marginTop: "10px" }}>
+              <label>Select Doctor:</label>
+              <select
+                style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                onChange={(e) => handleDoctorSelect(e.target.value)}
+              >
+                <option value="">-- Select Doctor --</option>
+                {pendingDoctors.map((doc) => (
+                  <option key={doc.payload} value={doc.payload}>
+                    {doc.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
-          {/* Gender Buttons */}
-          {pendingGenders && pendingGenders.map(g=>(
-            <button key={g.payload} onClick={()=>handleGenderSelect(g.payload)} style={{ display:"block", margin:"5px 0" }}>
-              {g.label}
-            </button>
-          ))}
+          {pendingGenders && (
+            <div style={{ marginTop: "10px" }}>
+              <label>Select Gender:</label>
+              <select
+                style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                onChange={(e) => handleGenderSelect(e.target.value)}
+              >
+                <option value="">-- Select Gender --</option>
+                {pendingGenders.map((g) => (
+                  <option key={g.payload} value={g.payload}>
+                    {g.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {pendingDates && (
+            <div style={{ marginTop: "10px" }}>
+              <label>Select Date:</label>
+              <select
+                style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                onChange={(e) => handleDateSelect(e.target.value)}
+              >
+                <option value="">-- Select Date --</option>
+                {pendingDates.map((d) => (
+                  <option key={d.payload} value={d.payload}>
+                    {d.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {showForm && (
+            <div style={{ marginTop: "10px" }}>
+              {/* Your existing form component */}
+              <form onSubmit={handleFormSubmit}>
+                {/* form inputs */}
+              </form>
+            </div>
+          )}
 
           <div ref={chatEndRef} />
         </div>
 
-        {!pendingDoctors && !pendingSlots && !pendingGenders &&
-          <form onSubmit={handleSubmit} style={{ display:"flex", marginTop:10 }}>
-            <input style={{ flex:1, padding:10 }} value={input} onChange={e=>setInput(e.target.value)} placeholder="Type message..." />
-            <button type="submit" style={{ padding:10 }}>Send</button>
+        {!pendingDoctors && !pendingGenders && !pendingDates && !showForm && (
+          <form onSubmit={handleSubmit} style={{ display: "flex", marginTop: "10px" }}>
+            <input
+              style={{ flex: 1, padding: "10px" }}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+            />
+            <button type="submit" style={{ padding: "10px" }}>
+              Send
+            </button>
           </form>
-        }
+        )}
       </div>
     </div>
   );
