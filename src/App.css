@@ -75,7 +75,7 @@
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  color: white;
+  
   margin-top: 0.5rem;
   transition: all 0.4s ease;
 }
