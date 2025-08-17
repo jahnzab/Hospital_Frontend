@@ -139,7 +139,7 @@ export default function ChatPage({
   // Default starting message
   const startingMessage = {
     from: "system",
-    text: "👋 Hello Users! Welcome to the Hospital Booking Chat First time it takes one minute to start your Booking Bot .Type Hello to start chat ",
+    text: "👋 Hello Users! Welcome to the Hospital Booking Chat.First time it takes up to one minute to start your Booking Bot .Just type Hello to start chat ",
   };
 
   return (
