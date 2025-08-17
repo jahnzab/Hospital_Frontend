@@ -103,7 +103,9 @@ export default function Home() {
           style={{
             backgroundImage: `url(${spec.image})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "center
+            height:"270px",
+              
           }}
         >
           <div className="card-body" 
