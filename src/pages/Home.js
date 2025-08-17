@@ -15,7 +15,7 @@
 
 
 // src/pages/Home.js
-import React, { useState } from "react";
+// import React, { useState } from "react";
 // // src/pages/Home.js
 
 // import "../App.css";
@@ -124,8 +124,9 @@ import React, { useState } from "react";
 //     </>
 //   );
 // }
-import "../App.css";
 
+import "../App.css";
+import React, { useState } from "react";
 
 import himage from   "../assets/heart.jpeg"
 import bimage from "../assets/brain.jpeg";
@@ -217,7 +218,7 @@ export default function Home() {
           }}
         >
           <div className="card-body" 
-          style={height:"270px"}
+          
             >
             <h5 className="card-title">{spec.title}</h5>
             <p className="card-text">{spec.text}</p>
