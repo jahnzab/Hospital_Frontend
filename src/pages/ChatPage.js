@@ -1,14 +1,12 @@
 
 
-
-// //src/pages/ChatPage.js
-// import React from "react";
+// import React, { useEffect, useRef } from "react";
 // import ChatMessage from "../components/ChatMessage";
 // import DoctorListMessage from "../components/DoctorListMessage";
 // import FormMessage from "../components/FormMessage";
 
 // const backgroundStyle = {
-//   backgroundImage: "url('/Doctor.jpg')",  // same image in public/Doctor/
+//   backgroundImage: "url('/Doctor.jpg')",
 //   backgroundSize: "cover",
 //   backgroundPosition: "center",
 //   minHeight: "100vh",
@@ -22,7 +20,7 @@
 // const containerStyle = {
 //   maxWidth: "600px",
 //   width: "100%",
-//   backgroundColor: "rgba(255, 255, 255, 0.9)", // white background with some transparency for readability
+//   backgroundColor: "rgba(255, 255, 255, 0.9)",
 //   borderRadius: "8px",
 //   padding: "20px",
 //   color: "#000",
@@ -38,6 +36,13 @@
 //   setInput,
 //   handleSubmit,
 // }) {
+//   const chatEndRef = useRef(null);
+
+//   // Scroll to bottom whenever messages change
+//   useEffect(() => {
+//     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages, pendingDoctors, showForm]);
+
 //   return (
 //     <div style={backgroundStyle}>
 //       <div style={containerStyle}>
@@ -64,7 +69,11 @@
 
 //           {/* Show booking form if needed */}
 //           {showForm && <FormMessage onSubmit={handleFormSubmit} />}
+
+//           {/* Dummy div to scroll into */}
+//           <div ref={chatEndRef} />
 //         </div>
+
 //         {/* Message input if not selecting doctor or filling form */}
 //         {!pendingDoctors && !showForm && (
 //           <form onSubmit={handleSubmit} style={{ display: "flex", marginTop: "10px" }}>
@@ -83,7 +92,6 @@
 //     </div>
 //   );
 // }
-
 
 import React, { useEffect, useRef } from "react";
 import ChatMessage from "../components/ChatMessage";
@@ -128,6 +136,12 @@ export default function ChatPage({
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, pendingDoctors, showForm]);
 
+  // Default starting message
+  const startingMessage = {
+    from: "system",
+    text: "👋 Hello Users! Welcome to the Hospital Booking Chat First time it takes one minute to start your Booking Bot .Type Hello to start chat ",
+  };
+
   return (
     <div style={backgroundStyle}>
       <div style={containerStyle}>
@@ -142,6 +156,9 @@ export default function ChatPage({
             backgroundColor: "#fff",
           }}
         >
+          {/* Starting message */}
+          <ChatMessage from={startingMessage.from} text={startingMessage.text} />
+
           {/* Chat history */}
           {messages.map((msg, i) => (
             <ChatMessage key={i} from={msg.from} text={msg.text} />
@@ -177,5 +194,4 @@ export default function ChatPage({
     </div>
   );
 }
-
 
