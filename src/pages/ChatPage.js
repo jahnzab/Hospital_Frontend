@@ -1,5 +1,4 @@
 
-
 // import React, { useEffect, useRef } from "react";
 // import ChatMessage from "../components/ChatMessage";
 // import DoctorListMessage from "../components/DoctorListMessage";
@@ -43,6 +42,12 @@
 //     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
 //   }, [messages, pendingDoctors, showForm]);
 
+//   // Default starting message
+//   const startingMessage = {
+//     from: "system",
+//     text: "👋 Hello Users! Welcome to the Hospital Booking Chat.First time it takes up to one minute to start your Booking Bot .Just type Hello to start chat ",
+//   };
+
 //   return (
 //     <div style={backgroundStyle}>
 //       <div style={containerStyle}>
@@ -57,6 +62,9 @@
 //             backgroundColor: "#fff",
 //           }}
 //         >
+//           {/* Starting message */}
+//           <ChatMessage from={startingMessage.from} text={startingMessage.text} />
+
 //           {/* Chat history */}
 //           {messages.map((msg, i) => (
 //             <ChatMessage key={i} from={msg.from} text={msg.text} />
@@ -93,7 +101,7 @@
 //   );
 // }
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatMessage from "../components/ChatMessage";
 import DoctorListMessage from "../components/DoctorListMessage";
 import FormMessage from "../components/FormMessage";
@@ -121,6 +129,7 @@ const containerStyle = {
 
 export default function ChatPage({
   messages,
+  setMessages, // add this to update messages state from parent
   pendingDoctors,
   showForm,
   handleDoctorSelect,
@@ -131,16 +140,34 @@ export default function ChatPage({
 }) {
   const chatEndRef = useRef(null);
 
+  // Default starting message
+  const startingMessage = {
+    from: "system",
+    text: "👋 Hello Users! Welcome to the Hospital Booking Chat. First time it takes up to one minute to start your Booking Bot. Just type Hello to start chat.",
+  };
+
+  // Load messages from localStorage on mount
+  useEffect(() => {
+    const savedMessages = localStorage.getItem("chatMessages");
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    } else {
+      // If no saved history, show starting message
+      setMessages([startingMessage]);
+    }
+  }, [setMessages]);
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem("chatMessages", JSON.stringify(messages));
+    }
+  }, [messages]);
+
   // Scroll to bottom whenever messages change
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, pendingDoctors, showForm]);
-
-  // Default starting message
-  const startingMessage = {
-    from: "system",
-    text: "👋 Hello Users! Welcome to the Hospital Booking Chat.First time it takes up to one minute to start your Booking Bot .Just type Hello to start chat ",
-  };
 
   return (
     <div style={backgroundStyle}>
@@ -156,9 +183,6 @@ export default function ChatPage({
             backgroundColor: "#fff",
           }}
         >
-          {/* Starting message */}
-          <ChatMessage from={startingMessage.from} text={startingMessage.text} />
-
           {/* Chat history */}
           {messages.map((msg, i) => (
             <ChatMessage key={i} from={msg.from} text={msg.text} />
@@ -194,4 +218,3 @@ export default function ChatPage({
     </div>
   );
 }
-
