@@ -106,7 +106,9 @@ export default function Home() {
             backgroundPosition: "center",
           }}
         >
-          <div className="card-body">
+          <div className="card-body" 
+          style={height:"270px"}
+            >
             <h5 className="card-title">{spec.title}</h5>
             <p className="card-text">{spec.text}</p>
           </div>
